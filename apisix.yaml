@@ -1,0 +1,20 @@
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: httpbin-route
+spec:
+  http:
+    - name: httpbin
+      match:
+        hosts:
+        - local.httpbin.org
+        paths:
+          - /*
+      backends:
+      - serviceName: foo
+        servicePort: 80
+      plugins:
+        - name: cors
+          enable: true
+          config: 
+            regex_uri: ["^/nexus(/|$)(.*)", "/$2"] 
